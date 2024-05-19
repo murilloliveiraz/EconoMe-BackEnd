@@ -1,4 +1,6 @@
 using System.Text;
+using AutoMapper;
+using EconoMe.Api.AutoMapper;
 using EconoMe.Api.Data.Contexts;
 using EconoMe.Api.Domain.Repository.Class;
 using EconoMe.Api.Domain.Repository.Interfaces;
@@ -26,9 +28,17 @@ static void ConfigurarInjecaoDeDependencia(WebApplicationBuilder builder)
     builder.Services.AddDbContext<ApplicationContext>(options =>
         options.UseNpgsql(connectionString), ServiceLifetime.Transient, ServiceLifetime.Transient
     );
+
+    var config = new MapperConfiguration(configs => {
+        configs.AddProfile<UserProfile>();
+    });
+
+    IMapper mapper = config.CreateMapper();
+
     builder.Services
     .AddSingleton(builder.Configuration)
     .AddSingleton(builder.Environment)
+    .AddSingleton(mapper)
     .AddScoped<IUserRepository, UserRepository>();
 }
 
