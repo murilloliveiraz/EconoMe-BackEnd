@@ -1,5 +1,7 @@
 using System.Text;
 using EconoMe.Api.Data.Contexts;
+using EconoMe.Api.Domain.Repository.Class;
+using EconoMe.Api.Domain.Repository.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -26,7 +28,8 @@ static void ConfigurarInjecaoDeDependencia(WebApplicationBuilder builder)
     );
     builder.Services
     .AddSingleton(builder.Configuration)
-    .AddSingleton(builder.Environment);
+    .AddSingleton(builder.Environment)
+    .AddScoped<IUserRepository, UserRepository>();
 }
 
 // Configura o serviços da API.

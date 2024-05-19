@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using EconoMe.Api.Data.Mappings;
 using EconoMe.Api.Domain.Models;
 using Microsoft.EntityFrameworkCore;
