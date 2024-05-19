@@ -1,0 +1,6 @@
+@EconoMe.Api_HostAddress = http://localhost:5285
+
+GET {{EconoMe.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
