@@ -8,7 +8,7 @@ namespace EconoMe.Api.Domain.Services.Interfaces
 {
     public interface IUserService : IService<UserRequestContract, UserResponseContract, long>
     {
-        Task<UserLoginResponseContract> Authenticate(UserLoginRequestContract user);
+        Task<UserLoginResponseContract> Authenticate(UserLoginRequestContract userRequest);
         Task<UserResponseContract> GetByEmail(string email);
     }
 }

@@ -4,6 +4,8 @@ using EconoMe.Api.AutoMapper;
 using EconoMe.Api.Data.Contexts;
 using EconoMe.Api.Domain.Repository.Class;
 using EconoMe.Api.Domain.Repository.Interfaces;
+using EconoMe.Api.Domain.Services.Class;
+using EconoMe.Api.Domain.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -39,6 +41,8 @@ static void ConfigurarInjecaoDeDependencia(WebApplicationBuilder builder)
     .AddSingleton(builder.Configuration)
     .AddSingleton(builder.Environment)
     .AddSingleton(mapper)
+    .AddScoped<TokenService>()
+    .AddScoped<IUserService, UserService>()
     .AddScoped<IUserRepository, UserRepository>();
 }
 
