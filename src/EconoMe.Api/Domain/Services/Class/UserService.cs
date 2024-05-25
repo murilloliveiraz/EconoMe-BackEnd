@@ -50,24 +50,40 @@ namespace EconoMe.Api.Domain.Services.Class
             return passwordHash;
         }
 
-        public Task Delete(long id, long idUser)
+        public async Task Delete(long id, long idUser)
         {
-            throw new NotImplementedException();
+             var user = await Get(id) ?? throw new Exception("Usuário não encontrado");
+             await _userRepository.Delete(_mapper.Map<User>(user));
         }
 
-        public Task<IEnumerable<UserResponseContract>> Get(long idUser)
+        public async Task<IEnumerable<UserResponseContract>> Get(long idUser)
         {
-            throw new NotImplementedException();
+            return await Get(idUser);
         }
 
-        public Task<UserResponseContract> GetById(long id, long idUser)
+        public async Task<UserResponseContract> GetById(long id, long idUser)
         {
-            throw new NotImplementedException();
+            var user = await _userRepository.GetById(id);
+            return _mapper.Map<UserResponseContract>(user);
         }
 
-        public Task<UserResponseContract> Update(long id, UserRequestContract model, long idUser)
+        public async Task<UserResponseContract> Update(long id, UserRequestContract model, long idUser)
         {
-            throw new NotImplementedException();
+            _ = await Get(id) ?? throw new Exception("Usiário não encontrado"); 
+
+            var user = _mapper.Map<User>(model);
+            user.Id = id;
+            user.Password = CreatePasswordHash(model.Password);
+
+            user = await _userRepository.Update(user);
+            return _mapper.Map<UserResponseContract>(user);
+        }
+
+        public async Task<UserResponseContract> GetByEmail(string email)
+        {
+            var user = await _userRepository.GetByEmail(email);
+
+            return _mapper.Map<UserResponseContract>(user);
         }
     }
 }
