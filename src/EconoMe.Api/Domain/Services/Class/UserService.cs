@@ -78,7 +78,7 @@ namespace EconoMe.Api.Domain.Services.Class
             return users.Select(user => _mapper.Map<UserResponseContract>(user));
         }
 
-        public async Task<UserResponseContract> GetById(long id, long idUser)
+        publ    ic async Task<UserResponseContract> GetById(long id, long idUser)
         {
             var user = await _userRepository.GetById(id);
             return _mapper.Map<UserResponseContract>(user);
@@ -86,7 +86,7 @@ namespace EconoMe.Api.Domain.Services.Class
 
         public async Task<UserResponseContract> Update(long id, UserRequestContract model, long idUser)
         {
-            _ = await Get(id) ?? throw new Exception("Usiário não encontrado"); 
+            _ = await Get(id) ?? throw new Exception("Usuário não encontrado"); 
 
             var user = _mapper.Map<User>(model);
             user.Id = id;
