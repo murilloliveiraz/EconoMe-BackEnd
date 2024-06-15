@@ -78,7 +78,7 @@ namespace EconoMe.Api.Domain.Services.Class
             return users.Select(user => _mapper.Map<UserResponseContract>(user));
         }
 
-        publ    ic async Task<UserResponseContract> GetById(long id, long idUser)
+       public async Task<UserResponseContract> GetById(long id, long idUser)
         {
             var user = await _userRepository.GetById(id);
             return _mapper.Map<UserResponseContract>(user);

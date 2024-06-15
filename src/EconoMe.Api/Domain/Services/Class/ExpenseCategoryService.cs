@@ -57,7 +57,7 @@ namespace EconoMe.Api.Domain.Services.Class
         private async Task<ExpenseCategory> GetExpenseCategoryByUserId(long id, long userId)
         {
             var expenseCategory = await _repository.GetById(id);
-            if (expenseCategory is null || expenseCategory.UserId == userId)
+            if (expenseCategory is null || expenseCategory.UserId != userId)
             {
                 throw new Exception("Categoria de despesa não encontrada");
             }

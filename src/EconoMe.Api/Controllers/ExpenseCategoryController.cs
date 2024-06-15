@@ -1,5 +1,4 @@
-using System.Security.Authentication;
-using EconoMe.Api.Contracts.User;
+using EconoMe.Api.Contracts.ExpenseCategory;
 using EconoMe.Api.Domain.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -7,42 +6,25 @@ using Microsoft.AspNetCore.Mvc;
 namespace EconoMe.Api.Controllers
 {
     [ApiController]
-    [Route("usuarios")]
-    public class UserController : BaseController
+    [Route("transacoes")]
+    public class ExpenseCategoryController : BaseController
     {
-       private readonly IUserService _userService;
+       private readonly IService<ExpenseCategoryRequestContract, ExpenseCategoryResponseContract, long> _ExpenseCategoryService;
+       private long _userId;
 
-       public UserController(IUserService userService)
+       public ExpenseCategoryController(IService<ExpenseCategoryRequestContract, ExpenseCategoryResponseContract, long> ExpenseCategoryService)
        {
-         _userService = userService;
+         _ExpenseCategoryService = ExpenseCategoryService;
        }
-
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Create(UserRequestContract model)
+        public async Task<IActionResult> Create(ExpenseCategoryRequestContract model)
         {
             try
             {
-                return Created("", await _userService.Create(model, 0));
-            }
-            catch(Exception ex)
-            {
-                return Problem(ex.Message);
-            }
-        }
-
-        [HttpPost("login")]
-        [AllowAnonymous]
-        public async Task<IActionResult> Authenticate(UserLoginRequestContract model)
-        {
-            try
-            {
-                return Ok(await _userService.Authenticate(model));
-            }
-            catch(AuthenticationException ex)
-            {
-                return Unauthorized(new {statusCode = 401, message = ex.Message});
+                _userId = GetLoggedInUserId();
+                return Created("", await _ExpenseCategoryService.Create(model, _userId));
             }
             catch(Exception ex)
             {
@@ -51,12 +33,13 @@ namespace EconoMe.Api.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<IActionResult> Get()
         {
             try
             {
-                return Ok(await _userService.Get(0));
+                _userId = GetLoggedInUserId();
+                return Ok(await _ExpenseCategoryService.Get(_userId));
             }
             catch(Exception ex)
             {
@@ -70,7 +53,8 @@ namespace EconoMe.Api.Controllers
         {
             try
             {
-                return Ok(await _userService.GetById(id, 0));
+                _userId = GetLoggedInUserId();
+                return Ok(await _ExpenseCategoryService.GetById(id, _userId));
             }
             catch(Exception ex)
             {
@@ -80,11 +64,12 @@ namespace EconoMe.Api.Controllers
 
         [HttpPut("{id}")]
         [Authorize]
-        public async Task<IActionResult> Update(long id, UserRequestContract model)
+        public async Task<IActionResult> Update(long id, ExpenseCategoryRequestContract model)
         {
             try
             {
-                return Ok(await _userService.Update(id, model, 0));
+                _userId = GetLoggedInUserId();
+                return Ok(await _ExpenseCategoryService.Update(id, model, _userId));
             }
             catch(Exception ex)
             {
@@ -98,7 +83,8 @@ namespace EconoMe.Api.Controllers
         {
             try
             {
-                await _userService.Delete(id, 0);
+                _userId = GetLoggedInUserId();
+                await _ExpenseCategoryService.Delete(id, _userId);
                 return NoContent();
             }
             catch(Exception ex)
