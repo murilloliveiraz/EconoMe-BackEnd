@@ -2,6 +2,7 @@ using System.Text;
 using AutoMapper;
 using EconoMe.Api.AutoMapper;
 using EconoMe.Api.Contracts.ExpenseCategory;
+using EconoMe.Api.Contracts.TransactionCategory;
 using EconoMe.Api.Data.Contexts;
 using EconoMe.Api.Domain.Repository.Class;
 using EconoMe.Api.Domain.Repository.Interfaces;
@@ -34,7 +35,7 @@ static void ConfigurarInjecaoDeDependencia(WebApplicationBuilder builder)
 
     var config = new MapperConfiguration(configs => {
         configs.AddProfile<UserProfile>();
-        configs.AddProfile<ExpenseCategoryProfile>();
+        configs.AddProfile<TransactionCategoryProfile>();
     });
 
     IMapper mapper = config.CreateMapper();
@@ -45,9 +46,9 @@ static void ConfigurarInjecaoDeDependencia(WebApplicationBuilder builder)
     .AddSingleton(mapper)
     .AddScoped<TokenService>()
     .AddScoped<IUserService, UserService>()
-    .AddScoped<IService<ExpenseCategoryRequestContract, ExpenseCategoryResponseContract, long>, ExpenseCategoryService>()
+    .AddScoped<IService<TransactionCategoryRequestContract, TransactionCategoryResponseContract, long>, TransactionCategoryService>()
     .AddScoped<IUserRepository, UserRepository>()
-    .AddScoped<IExpenseCategoryRepository, ExpenseCategoryRepository>();
+    .AddScoped<ITransactionCategoryRepository, TransactionCategoryRepository>();
 }
 
 // Configura o serviços da API.

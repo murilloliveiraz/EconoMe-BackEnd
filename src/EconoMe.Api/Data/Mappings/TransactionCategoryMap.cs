@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EconoMe.Api.Data.Mappings
 {
-    public class ExpenseCategoryMap : IEntityTypeConfiguration<ExpenseCategory>
+    public class TransactionCategoryMap : IEntityTypeConfiguration<TransactionCategory>
     {
-        public void Configure(EntityTypeBuilder<ExpenseCategory> builder)
+        public void Configure(EntityTypeBuilder<TransactionCategory> builder)
         {
-            builder.ToTable("ExpenseCategory")
+            builder.ToTable("transactioncategory")
             .HasKey(p => p.Id);
 
             builder.HasOne(p => p.User)

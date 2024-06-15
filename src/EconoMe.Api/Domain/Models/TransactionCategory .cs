@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EconoMe.Api.Domain.Models
 {
-    public class ExpenseCategory
+    public class TransactionCategory 
     {
         [Key]
         public long Id { get; set; }

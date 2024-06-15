@@ -1,6 +1,8 @@
+using EconoMe.Api.Contracts.TransactionCategory;
+
 namespace EconoMe.Api.Contracts.ExpenseCategory
 {
-    public class ExpenseCategoryResponseContract : ExpenseCategoryRequestContract
+    public class TransactionCategoryResponseContract : TransactionCategoryRequestContract
     {
         public long Id { get; set; }
         public long UserId { get; set; }
