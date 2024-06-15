@@ -59,8 +59,8 @@ namespace EconoMe.Api.Domain.Services.Class
             using(SHA256 sha256 = SHA256.Create())
             {
                byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
-               byte[] passowrdHashBytes = sha256.ComputeHash(passwordBytes);
-               passwordHash = BitConverter.ToString(passowrdHashBytes).Replace("-","").ToLower();
+               byte[] passwordHashBytes = sha256.ComputeHash(passwordBytes);
+               passwordHash = BitConverter.ToString(passwordHashBytes).Replace("-","").ToLower();
             }
 
             return passwordHash;

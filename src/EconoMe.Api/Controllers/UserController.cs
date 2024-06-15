@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace EconoMe.Api.Controllers
 {
     [ApiController]
-    [Route("[Controller]")]
+    [Route("usuarios")]
     public class UserController : ControllerBase
     {
        private readonly IUserService _userService;

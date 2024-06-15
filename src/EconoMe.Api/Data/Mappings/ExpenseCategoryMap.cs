@@ -4,20 +4,23 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EconoMe.Api.Data.Mappings
 {
-    public class UserMap : IEntityTypeConfiguration<User>
+    public class ExpenseCategoryMap : IEntityTypeConfiguration<ExpenseCategory>
     {
-        public void Configure(EntityTypeBuilder<User> builder)
+        public void Configure(EntityTypeBuilder<ExpenseCategory> builder)
         {
-            builder.ToTable("user")
+            builder.ToTable("ExpenseCategory")
             .HasKey(p => p.Id);
 
-            builder.Property(p => p.Email)
-            .HasColumnType("VARCHAR")
-            .IsRequired();
+            builder.HasOne(p => p.User)
+            .WithMany()
+            .HasForeignKey(fk => fk.UserId);
 
-            builder.Property(p => p.Password)
+            builder.Property(p => p.Description)
             .HasColumnType("VARCHAR")
             .IsRequired();
+            
+            builder.Property(p => p.Note)
+            .HasColumnType("VARCHAR");
 
             builder.Property(p => p.RegistrationDate)
             .HasColumnType("timestamp")

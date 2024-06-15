@@ -7,12 +7,14 @@ namespace EconoMe.Api.Data.Contexts
     public class ApplicationContext : DbContext
     {
         public DbSet<User> User {get; set;}
+        public DbSet<ExpenseCategory> ExpenseCategory {get; set;}
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options): base(options){}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UserMap());
+            modelBuilder.ApplyConfiguration(new ExpenseCategoryMap());
         }
     }
 }
