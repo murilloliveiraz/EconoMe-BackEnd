@@ -1,6 +1,6 @@
-namespace EconoMe.Api.Contracts.TransactionCategory
+namespace EconoMe.Api.Contracts.Payment
 {
-    public class TransactionCategoryResponseContract : TransactionCategoryRequestContract
+    public class PaymentResponseContract : PaymentRequestContract
     {
         public long Id { get; set; }
         public long UserId { get; set; }

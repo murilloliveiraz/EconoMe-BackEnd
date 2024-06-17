@@ -1,7 +1,7 @@
 using System.Text;
 using AutoMapper;
 using EconoMe.Api.AutoMapper;
-using EconoMe.Api.Contracts.ExpenseCategory;
+using EconoMe.Api.Contracts.Payment;
 using EconoMe.Api.Contracts.TransactionCategory;
 using EconoMe.Api.Data.Contexts;
 using EconoMe.Api.Domain.Repository.Class;
@@ -48,7 +48,9 @@ static void ConfigurarInjecaoDeDependencia(WebApplicationBuilder builder)
     .AddScoped<IUserService, UserService>()
     .AddScoped<IService<TransactionCategoryRequestContract, TransactionCategoryResponseContract, long>, TransactionCategoryService>()
     .AddScoped<IUserRepository, UserRepository>()
-    .AddScoped<ITransactionCategoryRepository, TransactionCategoryRepository>();
+    .AddScoped<IPaymentRepository, PaymentRepository>()
+    .AddScoped<ITransactionCategoryRepository, TransactionCategoryRepository>()
+    .AddScoped<IService<PaymentRequestContract, PaymentResponseContract, long>, PaymentService>();
 }
 
 // Configura o serviços da API.

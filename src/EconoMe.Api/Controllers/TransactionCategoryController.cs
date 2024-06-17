@@ -1,4 +1,3 @@
-using EconoMe.Api.Contracts.ExpenseCategory;
 using EconoMe.Api.Contracts.TransactionCategory;
 using EconoMe.Api.Domain.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;

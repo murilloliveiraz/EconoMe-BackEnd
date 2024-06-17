@@ -1,5 +1,4 @@
 using AutoMapper;
-using EconoMe.Api.Contracts.ExpenseCategory;
 using EconoMe.Api.Contracts.TransactionCategory;
 using EconoMe.Api.Domain.Models;
 using EconoMe.Api.Domain.Repository.Interfaces;
