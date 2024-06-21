@@ -36,6 +36,7 @@ static void ConfigurarInjecaoDeDependencia(WebApplicationBuilder builder)
     var config = new MapperConfiguration(configs => {
         configs.AddProfile<UserProfile>();
         configs.AddProfile<TransactionCategoryProfile>();
+        configs.AddProfile<PaymentProfile>();
     });
 
     IMapper mapper = config.CreateMapper();
