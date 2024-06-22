@@ -3,6 +3,7 @@ using EconoMe.Api.Contracts.Payment;
 using EconoMe.Api.Domain.Models;
 using EconoMe.Api.Domain.Repository.Interfaces;
 using EconoMe.Api.Domain.Services.Interfaces;
+using EconoMe.Api.Exceptions;
 
 namespace EconoMe.Api.Domain.Services.Class
 {
@@ -19,6 +20,7 @@ namespace EconoMe.Api.Domain.Services.Class
 
         public async Task<PaymentResponseContract> Create(PaymentRequestContract model, long idUser)
         {
+            Validate(model);
             Payment payment = _mapper.Map<Payment>(model);
             payment.RegistrationDate = DateTime.Now;
             payment.UserId = idUser;
@@ -46,8 +48,8 @@ namespace EconoMe.Api.Domain.Services.Class
 
         public async Task<PaymentResponseContract> Update(long id, PaymentRequestContract model, long idUser)
         {
+            Validate(model);
             Payment payment = await GetPaymentByUserId(id, idUser);
-
             var paymentContract = _mapper.Map<Payment>(model);
             paymentContract.UserId = payment.UserId;
             paymentContract.Id = payment.Id;
@@ -62,9 +64,16 @@ namespace EconoMe.Api.Domain.Services.Class
             var payment = await _repository.GetById(id);
             if (payment is null || payment.UserId != userId)
             {
-                throw new Exception("Categoria de transação não encontrada");
+                throw new NotFoundException("Pagamento não encontrado");
             }
             return payment;
+        }
+        private void Validate(PaymentRequestContract model)
+        {
+            if (model.OriginalAmount < 0 || model.AmountPaid < 0)
+            {
+                throw new BadRequestException("Os valores originais e pagos não podem ser negativos.");
+            }
         }
     }
 }

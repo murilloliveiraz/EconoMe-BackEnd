@@ -1,5 +1,6 @@
 using EconoMe.Api.Contracts.TransactionCategory;
 using EconoMe.Api.Domain.Services.Interfaces;
+using EconoMe.Api.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,8 +11,6 @@ namespace EconoMe.Api.Controllers
     public class TransactionCategoryController : BaseController
     {
        private readonly IService<TransactionCategoryRequestContract, TransactionCategoryResponseContract, long> _TransactionCategoryService;
-       private long _userId;
-
        public TransactionCategoryController(IService<TransactionCategoryRequestContract, TransactionCategoryResponseContract, long> TransactionCategoryService)
        {
          _TransactionCategoryService = TransactionCategoryService;
@@ -25,6 +24,10 @@ namespace EconoMe.Api.Controllers
             {
                 _userId = GetLoggedInUserId();
                 return Created("", await _TransactionCategoryService.Create(model, _userId));
+            }
+            catch(NotFoundException ex)
+            {
+                return NotFound(ThrowNotFound(ex));
             }
             catch(Exception ex)
             {
@@ -41,6 +44,10 @@ namespace EconoMe.Api.Controllers
                 _userId = GetLoggedInUserId();
                 return Ok(await _TransactionCategoryService.Get(_userId));
             }
+            catch(NotFoundException ex)
+            {
+                return NotFound(ThrowNotFound(ex));
+            }
             catch(Exception ex)
             {
                 return Problem(ex.Message);
@@ -55,6 +62,10 @@ namespace EconoMe.Api.Controllers
             {
                 _userId = GetLoggedInUserId();
                 return Ok(await _TransactionCategoryService.GetById(id, _userId));
+            }
+            catch(NotFoundException ex)
+            {
+                return NotFound(ThrowNotFound(ex));
             }
             catch(Exception ex)
             {
@@ -71,6 +82,10 @@ namespace EconoMe.Api.Controllers
                 _userId = GetLoggedInUserId();
                 return Ok(await _TransactionCategoryService.Update(id, model, _userId));
             }
+            catch(NotFoundException ex)
+            {
+                return NotFound(ThrowNotFound(ex));
+            }
             catch(Exception ex)
             {
                 return Problem(ex.Message);
@@ -86,6 +101,10 @@ namespace EconoMe.Api.Controllers
                 _userId = GetLoggedInUserId();
                 await _TransactionCategoryService.Delete(id, _userId);
                 return NoContent();
+            }
+            catch(NotFoundException ex)
+            {
+                return NotFound(ThrowNotFound(ex));
             }
             catch(Exception ex)
             {

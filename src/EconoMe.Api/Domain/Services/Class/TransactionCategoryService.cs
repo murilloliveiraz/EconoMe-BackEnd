@@ -3,6 +3,7 @@ using EconoMe.Api.Contracts.TransactionCategory;
 using EconoMe.Api.Domain.Models;
 using EconoMe.Api.Domain.Repository.Interfaces;
 using EconoMe.Api.Domain.Services.Interfaces;
+using EconoMe.Api.Exceptions;
 
 namespace EconoMe.Api.Domain.Services.Class
 {
@@ -59,7 +60,7 @@ namespace EconoMe.Api.Domain.Services.Class
             var transaction = await _repository.GetById(id);
             if (transaction is null || transaction.UserId != userId)
             {
-                throw new Exception("Categoria de transação não encontrada");
+                throw new NotFoundException("Categoria de transação não encontrada");
             }
             return transaction;
         }

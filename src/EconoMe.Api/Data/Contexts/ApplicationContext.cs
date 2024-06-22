@@ -9,6 +9,7 @@ namespace EconoMe.Api.Data.Contexts
         public DbSet<User> User {get; set;}
         public DbSet<TransactionCategory> TransactionCategory {get; set;}
         public DbSet<Payment> Payment {get; set;}
+        public DbSet<Receivable> Receivable {get; set;}
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options): base(options){}
 
@@ -17,6 +18,7 @@ namespace EconoMe.Api.Data.Contexts
             modelBuilder.ApplyConfiguration(new UserMap());
             modelBuilder.ApplyConfiguration(new TransactionCategoryMap());
             modelBuilder.ApplyConfiguration(new PaymentMap());
+            modelBuilder.ApplyConfiguration(new ReceivableMap());
         }
     }
 }

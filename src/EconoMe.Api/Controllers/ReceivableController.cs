@@ -1,4 +1,5 @@
-using EconoMe.Api.Contracts.Payment;
+using EconoMe.Api.Contracts;
+using EconoMe.Api.Contracts.Receivable;
 using EconoMe.Api.Domain.Services.Interfaces;
 using EconoMe.Api.Exceptions;
 using Microsoft.AspNetCore.Authorization;
@@ -7,24 +8,24 @@ using Microsoft.AspNetCore.Mvc;
 namespace EconoMe.Api.Controllers
 {
     [ApiController]
-    [Route("pagamentos")]
-    public class PaymentController : BaseController
+    [Route("recebimentos")]
+    public class ReceivableController : BaseController
     {
-       private readonly IService<PaymentRequestContract, PaymentResponseContract, long> _paymentService;
+       private readonly IService<ReceivableRequestContract, ReceivableResponseContract, long> _receivableService;
 
-       public PaymentController(IService<PaymentRequestContract, PaymentResponseContract, long> paymentService)
+       public ReceivableController(IService<ReceivableRequestContract, ReceivableResponseContract, long> ReceivableService)
        {
-         _paymentService = paymentService;
+         _receivableService = ReceivableService;
        }
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Create(PaymentRequestContract model)
+        public async Task<IActionResult> Create(ReceivableRequestContract model)
         {
             try
             {
                 _userId = GetLoggedInUserId();
-                return Created("", await _paymentService.Create(model, _userId));
+                return Created("", await _receivableService.Create(model, _userId));
             }
             catch(NotFoundException ex)
             {
@@ -47,7 +48,7 @@ namespace EconoMe.Api.Controllers
             try
             {
                 _userId = GetLoggedInUserId();
-                return Ok(await _paymentService.Get(_userId));
+                return Ok(await _receivableService.Get(_userId));
             }
             catch(NotFoundException ex)
             {
@@ -66,7 +67,7 @@ namespace EconoMe.Api.Controllers
             try
             {
                 _userId = GetLoggedInUserId();
-                return Ok(await _paymentService.GetById(id, _userId));
+                return Ok(await _receivableService.GetById(id, _userId));
             }
             catch(NotFoundException ex)
             {
@@ -80,12 +81,12 @@ namespace EconoMe.Api.Controllers
 
         [HttpPut("{id}")]
         [Authorize]
-        public async Task<IActionResult> Update(long id, PaymentRequestContract model)
+        public async Task<IActionResult> Update(long id, ReceivableRequestContract model)
         {
             try
             {
                 _userId = GetLoggedInUserId();
-                return Ok(await _paymentService.Update(id, model, _userId));
+                return Ok(await _receivableService.Update(id, model, _userId));
             }
             catch(NotFoundException ex)
             {
@@ -108,7 +109,7 @@ namespace EconoMe.Api.Controllers
             try
             {
                 _userId = GetLoggedInUserId();
-                await _paymentService.Delete(id, _userId);
+                await _receivableService.Delete(id, _userId);
                 return NoContent();
             }
             catch(NotFoundException ex)

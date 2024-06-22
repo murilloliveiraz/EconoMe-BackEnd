@@ -1,16 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Intrinsics.Arm;
 using System.Security.Authentication;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 using AutoMapper;
 using EconoMe.Api.Contracts.User;
 using EconoMe.Api.Domain.Models;
 using EconoMe.Api.Domain.Repository.Interfaces;
 using EconoMe.Api.Domain.Services.Interfaces;
+using EconoMe.Api.Exceptions;
 
 namespace EconoMe.Api.Domain.Services.Class
 {
@@ -68,7 +64,7 @@ namespace EconoMe.Api.Domain.Services.Class
 
         public async Task Delete(long id, long idUser)
         {
-             var user = await _userRepository.GetById(id) ?? throw new Exception("Usuário não encontrado");
+             var user = await _userRepository.GetById(id) ?? throw new NotFoundException("Usuário não encontrado");
              await _userRepository.Delete(_mapper.Map<User>(user));
         }
 
@@ -86,7 +82,7 @@ namespace EconoMe.Api.Domain.Services.Class
 
         public async Task<UserResponseContract> Update(long id, UserRequestContract model, long idUser)
         {
-            _ = await Get(id) ?? throw new Exception("Usuário não encontrado"); 
+            _ = await Get(id) ?? throw new NotFoundException("Usuário não encontrado"); 
 
             var user = _mapper.Map<User>(model);
             user.Id = id;

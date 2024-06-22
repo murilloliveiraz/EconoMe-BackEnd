@@ -1,6 +1,7 @@
 using System.Security.Authentication;
 using EconoMe.Api.Contracts.User;
 using EconoMe.Api.Domain.Services.Interfaces;
+using EconoMe.Api.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,6 +27,10 @@ namespace EconoMe.Api.Controllers
             {
                 return Created("", await _userService.Create(model, 0));
             }
+            catch(BadRequestException ex)
+            {
+                return BadRequest(ThrowBadRequest(ex));
+            }
             catch(Exception ex)
             {
                 return Problem(ex.Message);
@@ -42,7 +47,7 @@ namespace EconoMe.Api.Controllers
             }
             catch(AuthenticationException ex)
             {
-                return Unauthorized(new {statusCode = 401, message = ex.Message});
+                return Unauthorized(ThrowUnauthorized(ex));
             }
             catch(Exception ex)
             {
@@ -85,6 +90,10 @@ namespace EconoMe.Api.Controllers
             try
             {
                 return Ok(await _userService.Update(id, model, 0));
+            }
+            catch(BadRequestException ex)
+            {
+                return BadRequest(ThrowBadRequest(ex));
             }
             catch(Exception ex)
             {
