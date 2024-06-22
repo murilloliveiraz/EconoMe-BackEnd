@@ -2,6 +2,7 @@ using System.Text;
 using AutoMapper;
 using EconoMe.Api.AutoMapper;
 using EconoMe.Api.Contracts.Payment;
+using EconoMe.Api.Contracts.Receivable;
 using EconoMe.Api.Contracts.TransactionCategory;
 using EconoMe.Api.Data.Contexts;
 using EconoMe.Api.Domain.Repository.Class;
@@ -37,6 +38,7 @@ static void ConfigurarInjecaoDeDependencia(WebApplicationBuilder builder)
         configs.AddProfile<UserProfile>();
         configs.AddProfile<TransactionCategoryProfile>();
         configs.AddProfile<PaymentProfile>();
+        configs.AddProfile<ReceivableProfile>();
     });
 
     IMapper mapper = config.CreateMapper();
@@ -51,7 +53,9 @@ static void ConfigurarInjecaoDeDependencia(WebApplicationBuilder builder)
     .AddScoped<IUserRepository, UserRepository>()
     .AddScoped<IPaymentRepository, PaymentRepository>()
     .AddScoped<ITransactionCategoryRepository, TransactionCategoryRepository>()
-    .AddScoped<IService<PaymentRequestContract, PaymentResponseContract, long>, PaymentService>();
+    .AddScoped<IReceivableRepository, ReceivableRepository>()
+    .AddScoped<IService<PaymentRequestContract, PaymentResponseContract, long>, PaymentService>()
+    .AddScoped<IService<ReceivableRequestContract, ReceivableResponseContract, long>, ReceivableService>();
 }
 
 // Configura o serviços da API.
